@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+  <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+  <script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyADqCStBokSvHDQC-EpIpw0CKzKh2-y2XU",
+    authDomain: "techedu-1e7d4.firebaseapp.com",
+    databaseURL: "https://techedu-1e7d4.firebaseio.com",
+    projectId: "techedu-1e7d4",
+    storageBucket: "",
+    messagingSenderId: "943736383093"
+  };
+
+  firebase.initializeApp(config);
+  var database = firebase.database();
+
+  function FirePost() {
+    var cookieInfo = document.cookie
+    firebase.database().ref('users/' + cookieInfo.substring[cookieInfo.search("auth")+5,-1]).set({
+      teste: 123,
+      teste : 453,
+    })
+  }
+  </script>
+
+
+
+  <script type="text/javascript">
+
+    console.log(document.cookie);
+    var testepss=0
+    var i = 0
+
+    function CheckPassword() {
+      var pass1 = document.getElementById('pass1').value
+      var pass2 = document.getElementById('pass2').value
+      if (pass1 != pass2) {
+        document.getElementById('teste').textContent = 'Senhas nao conferem';
+        testepss=0
+      } else {
+        testepss=1
+      }
+    }
+    function register() {
+      var pass = document.getElementById('pass2').value
+      var usrr = document.getElementById('user').value
+      console.log(usrr, pass);
+    }
+    var organizations = ["band","insper"];
+
+  </script>
+  <head>
+    <meta charset="utf-8">
+    <title>TechEdu Registro</title>
+  </head>
+  <body>
+    <form>
+      <br><span>Organizacao:</span><select class="" name="" id="organizations">
+      </select>
+      <br><span>Usuario:</span><input type="text" id="user" value="" onkeyup="login1();">
+      <br><span>Senha:</span><input type="password" id="pass1" value="" onkeyup="login1();">
+      <br><span>Repita a senha:</span><input type="password" id="pass2" value="" onkeyup="CheckPassword();">
+      <span id="teste"></span>
+      <br><button type="button" name="Registro" onclick="register()">Registrar-se</button>
+      <br><button type="button" name="Fire" onclick="FirePost()">FirePost</button>
+    </form>
+  </body>
+  <script type="text/javascript">
+    var organizationsl =[]
+    var i = 0
+    while (i < organizations.length){
+      console.log(organizations[i], 1)
+      organizationsl.push("<option value=" + organizations[i] +  ">" + organizations[i] + "</option>")
+      i++
+    }
+    console.log(organizationsl);
+    document.getElementById('organizations').innerHTML = organizationsl
+  </script>
+</html>
