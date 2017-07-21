@@ -7,9 +7,11 @@ var request = require('request');
 
 
 //Page files
-var registrar = require('./register');
+var registrar = require('./pages/register');
+var index = require('./pages/index').main;
+var gmail = require('./pages/gmail').main;
 
-var firebaseUrl = require('./firebase_private').firebaseUrl
+var firebaseUrl = require('./private/firebase_private').firebaseUrl
 console.log(firebaseUrl("Oaa"));
 
 app.use(cookieParser());
@@ -20,7 +22,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
 
-var serviceAccount = require("./credentials/fireB.json");
+var serviceAccount = require("./private/fireB.json");
 
 var db = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -113,24 +115,35 @@ app.post('/login', function(req, res) {
 
 app.post('/registers', function(req, res) {
   authClient(req,res)
+  var reg=Object()
+  console.log(req.body);
+  reg.user=req.body.user;
   var user=req.body.user;
-  var org=req.body.organization;
-  var lastlog=data();
-  var passwd=req.body.pass;
+  reg.name=req.body.name;
+  reg.org=req.body.org;
+  reg.email=req.body.email;
+  reg.cel=req.body.cel;
+  reg.lastlog=data();
+  reg.psw=req.body.psw;
   var simsim ="batata"
+  //res.send(reg.user + "registro = " + String(reg.keys) + " ja pode logar");
+  console.log(reg.keys);
   if (1==1){
     getFromFirebase( firebaseUrl("get_user_auth", req), function (reply) {
       if (reply===null) reply={user:"unknown",org:"unknown",lastlog:"unknown",passwd:"unknown"}
-      reply.user=user;
-      reply.org=org;
-      reply.lastlog=lastlog;
-      reply.passwd=passwd;
+      reply.user=reg.user;
+      reply.name=reg.name;
+      reply.org=reg.org;
+      reply.email=reg.email;
+      reply.cel=reg.cel;
+      reply.lastlog=reg.lastlog;
+      reply.pass=reg.psw;
       db.ref('users/' + user).set(reply);
       db.ref('cookies/' + req.cookies.auth).set({
         "user":user,
         "date":data(),
       });
-      res.send(user + " " + passwd + org + reply);
+      res.send(user + "registro = " + reg + " ja pode logar");
     });
   }
 });
@@ -139,9 +152,12 @@ app.post('/registers', function(req, res) {
 
 app.get('/', function (req, res) {
   authClient(req,res);
-  //res.send("teste")
-  res.sendFile(path.join(__dirname + '/index.html'));
+  getFromFirebase( firebaseUrl("get_organizations", req), function (reply){
+    var prop = Object().firebase=reply
+    res.send(index(prop))
+  });
 });
+
 
 
 app.get('/register', function (req, res) {
@@ -152,6 +168,17 @@ app.get('/register', function (req, res) {
   });
 });
 
+app.post('/email', function (req, res) {
+  authClient(req,res);
+  var prop=req.body
+  res.send(gmail(prop))
+})
+
+
+app.get('/contato', function (req, res) {
+  authClient(req,res);
+  res.sendFile(path.join(__dirname + '/pages/contact.html'));
+})
 
 
 
