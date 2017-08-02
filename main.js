@@ -10,6 +10,7 @@ var request = require('request');
 var registrar = require('./pages/register');
 var index = require('./pages/index').main;
 var gmail = require('./pages/gmail').main;
+var dashboard = require('./pages/dashboard').main;
 
 var firebaseUrl = require('./private/firebase_private').firebaseUrl
 console.log(firebaseUrl("Oaa"));
@@ -38,13 +39,13 @@ function genCookie(){
   for (var i = 0; i < 25; i++)
     text += ps.charAt(Math.floor(Math.random() * ps.length));
   db.ref('cookies/' + text).set({
-    "user" : "",
+    "user" : "unknown",
     "date" : "",
   });
   return text;
 }
 
-function getFromFirebase( url, callback) {
+function getFromFirebase(url, callback) {
   request(url, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       var resp = JSON.parse(body);
@@ -97,12 +98,12 @@ app.post('/login', function(req, res) {
   var name = req.body.usr;
   var passwd = req.body.pass;
   getFromFirebase(firebaseUrl("get_users", req), function (reply) {
-    if (reply[name] && reply[name]['passwd']==passwd){
+    if (reply[name] && reply[name]['pass']==passwd){
       getFromFirebase( firebaseUrl("get_cookie_auth", req), function (reply) {
       reply.user=name;
       reply.date=data()
       db.ref('cookies/' + req.cookies.auth).set(reply);
-      res.send(name + " " + passwd + reply);
+      res.redirect("/dashboard")
       });
     } else {
       res.status(403).send("Usuario ou senha incorretos, talvez queira registrar-se")
@@ -138,6 +139,10 @@ app.post('/registers', function(req, res) {
       reply.cel=reg.cel;
       reply.lastlog=reg.lastlog;
       reply.pass=reg.psw;
+      reply.courses={
+        "locked":{
+          "url":"https://player.vimeo.com/video/121712712"
+        }},
       db.ref('users/' + user).set(reply);
       db.ref('cookies/' + req.cookies.auth).set({
         "user":user,
@@ -148,17 +153,14 @@ app.post('/registers', function(req, res) {
   }
 });
 
-
-
 app.get('/', function (req, res) {
   authClient(req,res);
   getFromFirebase( firebaseUrl("get_organizations", req), function (reply){
-    var prop = Object().firebase=reply
+    var prop = Object().firebase =reply
     res.send(index(prop))
+    console.log("prop= " + Object.keys(prop));
   });
 });
-
-
 
 app.get('/register', function (req, res) {
   authClient(req,res)
@@ -174,21 +176,60 @@ app.post('/email', function (req, res) {
   res.send(gmail(prop))
 })
 
-
 app.get('/contato', function (req, res) {
   authClient(req,res);
   res.sendFile(path.join(__dirname + '/pages/contact.html'));
 })
 
-
-
-app.get('/cookie',function(req, res){
+app.get('/dashboard', function (req, res) {
   authClient(req,res)
+  getFromFirebase(firebaseUrl("get_cookie_auth", req), function (replyusr) {
+    if (replyusr==null || replyusr.user==undefined || replyusr.user=="unknown"){
+      res.send("nao autenticado");
+    } else{
+      console.log(Object.keys(replyusr) + " rescebi user= " + replyusr.user + " gerando " + firebaseUrl("get_courses_all_auth", req, replyusr.user));
 
+      getFromFirebase(firebaseUrl("get_courses_all_auth", req, replyusr.user), function (reply){
+        console.log("a reply tem = " + reply + " do " + firebaseUrl("get_courses_all_auth", req, replyusr.user));
+        var prop = Object()
+        prop.courses = reply
+        prop.user = replyusr.user
+        console.log(prop.courses);
+        res.send(dashboard(prop))
+      });
+    }
+  });
+});
+
+
+
+app.get('/curso', function (req, res) {
+  console.log("veio o " + req.query.curso);
+  authClient(req,res)
+  getFromFirebase(firebaseUrl("get_cookie_auth", req), function (replyusr) {
+    if (replyusr==null || replyusr.user==undefined || replyusr.user=="unknown"){
+      res.send("nao autenticado");
+    } else {
+      console.log(Object.keys(replyusr) + " rescebi user= " + replyusr.user + " gerando " + firebaseUrl("get_courses_all_auth", req, replyusr.user));
+
+      getFromFirebase(firebaseUrl("get_courses_all_auth", req, replyusr.user), function (reply){
+        console.log("a reply tem = " + Object.keys(reply) + " do " + firebaseUrl("get_courses_all_auth", req, replyusr.user));
+        var prop = Object()
+        prop.courses = reply
+
+        prop.user = replyusr.user
+        if (reply[req.query.curso]!=undefined && reply[req.query.curso].url){
+          res.send(`
+            <iframe src=" `+ reply[req.query.curso].url +`" width="640" height="480" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+          `)
+        } else res.status(403).send("Desculpa acesso negado")
+      });
+    }
+  });
 });
 
 app.use('/static', express.static('static'));
 
-app.listen(3000, function () {
+app.listen(8000, function () {
   console.log('Server started')
 });
