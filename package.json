@@ -4,7 +4,8 @@
   "description": "TITLE:  TechEdu - Educação inovadora para jovens do Ensino Médio",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+	"test": "echo \"Error: no test specified\" && exit 1",
+	"start": "node main.js"
   },
   "author": "Bruno Arthur",
   "license": "MIT",

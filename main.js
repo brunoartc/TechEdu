@@ -1,3 +1,4 @@
+const functions = require('firebase-functions');
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -11,6 +12,7 @@ var registrar = require('./pages/register');
 var index = require('./pages/index').main;
 var gmail = require('./pages/gmail').main;
 var dashboard = require('./pages/dashboard').main;
+var course = require('./pages/courses').main;
 
 var firebaseUrl = require('./private/firebase_private').firebaseUrl
 console.log(firebaseUrl("Oaa"));
@@ -218,10 +220,16 @@ app.get('/curso', function (req, res) {
         prop.courses = reply
 
         prop.user = replyusr.user
+
         if (reply[req.query.curso]!=undefined && reply[req.query.curso].url){
-          res.send(`
-            <iframe src=" `+ reply[req.query.curso].url +`" width="640" height="480" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-          `)
+
+          prop.url=reply[req.query.curso].url
+
+          if (reply[req.query.curso].info){
+            prop.info=reply[req.query.curso].info
+          }
+          res.send(
+        course(prop))
         } else res.status(403).send("Desculpa acesso negado")
       });
     }
