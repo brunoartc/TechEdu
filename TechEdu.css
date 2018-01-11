@@ -1,34 +1,60 @@
+/* ELEMENTS */
 body{
   font-family: 'Raleway', sans-serif;
   background-color: rgba(200, 200, 200);
   background-size: cover;
 }
 
+/* IDs */
 #home_msg {
-  margin: 7% 12% 0% 6.5%;
-  padding: 0.2% 2% 0.2% 2%;
-  background-color: rgba(34,34,34,0.8);
-  border-radius: 5px;
+  margin: 120px 16% 0% 6.5%;
+  padding: 0.2% 2%;
+  background-color: rgba(34,34,34,0.65);
+  border-radius: 20px;
 }
 
 #home_msgh1 {
+  margin: 0px auto;
   color: white;
-  font-size: 40px;
+  font-size: 50px;
   font-weight: bold;
 }
 
 #home_msgh2 {
+  margin: 0px auto;
   color: white;
-  font-size: 25px;
+  font-size: 45px;
+  font-weight: bold;
+}
+
+#home_msgh3 {
+  color: white;
+  font-size: 30px;
 }
 
 #techbar {
-  background-color: rgba(34,34,34);
+  margin-bottom: 0px;
+  background-color: rgba(70,70,70,0.8);
   font-size: 25px;
+  border: 0;
+}
+
+#bs-nav-demo {
+  padding-top: 20px;
+}
+
+/* CLASSES */
+.navbar{
+  height: 100px;
 }
 
 .navbar-brand {
-  font-size: 40px;
+  line-height: 50px;
+  width: 215px;
+  height: 70px;
+  padding: 25 0 0 0;
+  margin-top: 0px;
+  font-size: 50px;
   font-weight: bold;
 }
 
@@ -39,3 +65,5 @@ body{
 .blue {
   color: #006C63;
 }
+
+/* SELECTORS */
