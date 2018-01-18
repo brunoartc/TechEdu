@@ -1,0 +1,49 @@
+#flexContent {
+  display: -webkit-flex;
+  -webkit-flex-direction: row-reverse;
+  display: flex;
+  flex-direction: row-reverse;
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  width:90%;
+  height:auto;
+  margin-top: -9em; /*set to a negative number 1/2 of your height*/
+  margin-left: -45%; /*set to a negative number 1/2 of your width*/
+  /*border: 1px solid #ccc;*/
+  justify-content:space-around;
+   /*background-color: #f3f3f3;*/
+}
+
+#navbar-courses{
+  position: relative;
+}
+#box {
+  width: 100px;
+  height: 100px;
+  z-index: 2;
+}
+#box_img {
+  max-width: 100%;
+  max-height: 80%;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+    margin: 0 0 0 -34px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}

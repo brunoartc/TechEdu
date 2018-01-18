@@ -1,0 +1,29 @@
+/* ELEMENTS */
+body {
+  font-family: 'Cabin', sans-serif;
+}
+/* ------------------------------------------- */
+
+/* CLASSES */
+.fh5co-nav {
+  background-color: transparent;
+}
+
+.top-menu {
+  background-color: transparent;
+}
+/* ------------------------------------------ */
+
+/* SELECTORS */
+.fh5co-nav ul li a {
+  font-size: 20px;
+}
+
+.fh5co-nav ul li a:hover {
+  font-size: 20.5px;
+  color: #68BD45;
+}
+
+.fh5co-nav ul li {
+  margin-right: 25px;
+}

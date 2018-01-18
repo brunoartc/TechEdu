@@ -1,8 +1,12 @@
 /* ELEMENTS */
-body{
+
+body {
+  background-image: url('BG3.jpg');
+  background-repeat: no-repeat;
   font-family: 'Raleway', sans-serif;
   background-color: rgba(200, 200, 200);
   background-size: cover;
+  color: black;
 }
 
 /* IDs */
@@ -34,8 +38,9 @@ body{
 
 #techbar {
   margin-bottom: 0px;
-  background-color: rgba(70,70,70,0.8);
+  background-color: rgba(0,0,0,0.75);
   font-size: 25px;
+  max-height: 340px;
   border: 0;
 }
 
@@ -44,26 +49,48 @@ body{
 }
 
 /* CLASSES */
-.navbar{
+.navbar {
   height: 100px;
+}
+
+.navbar-nav {
+  height: 75px;
+  padding-top: 10px;
 }
 
 .navbar-brand {
   line-height: 50px;
-  width: 215px;
-  height: 70px;
-  padding: 25 0 0 0;
-  margin-top: 0px;
-  font-size: 50px;
+  width: 230px;
+  height: 75px;
+  padding: 0 0 0 0;
+  margin-top: 25px;
+  font-size: 60px;
   font-weight: bold;
 }
 
 .green {
+  font-family: 'Cabin',sans-serif;
   color:#68BD45;
 }
 
 .blue {
+  font-family: 'Cabin',sans-serif;
   color: #006C63;
 }
 
 /* SELECTORS */
+
+.navbar-inverse .navbar-nav > li > a:hover { /*ESCOLHER A COR COM O MOUSE EM CIMA*/
+  color: #68BD45;
+}
+
+.navbar-inverse .navbar-nav > li > a { /*ESCOLHER A COR SEM O MOUSE EM CIMA*/
+  color: rgba(255,255,255,0.75);
+  font-size: 20px;
+  font-family: 'Cabin',sans-serif;
+}
+
+.nav > li > a {
+  padding-right: 120px;
+  padding-left: 0px;
+}

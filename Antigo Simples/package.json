@@ -1,0 +1,21 @@
+{
+  "name": "education",
+  "version": "1.0.0",
+  "description": "TITLE:  TechEdu - Educação inovadora para jovens do Ensino Médio",
+  "main": "app.js",
+  "scripts": {
+	"test": "echo \"Error: no test specified\" && exit 1",
+	"start": "node main.js"
+  },
+  "author": "Bruno Arthur",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.3",
+    "firebase-admin": "^5.1.0",
+    "google-auth-library": "^0.10.0",
+    "googleapis": "^20.1.0",
+    "nodemailer": "^4.0.1"
+  }
+}
